@@ -1,6 +1,6 @@
 export default oauthGoogleEventHandler({
   config: {
-    emailRequired: true,
+    // emailRequired: true,
   },
   async onSuccess(event, { user: oauthUser, tokens }) {
     // Validate required OAuth user data

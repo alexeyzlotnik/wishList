@@ -77,11 +77,4 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   devtools: { enabled: true },
-  render: {
-    csp: {
-      policies: {
-        'img-src': ["'self'", 'data:', 'https://avatars.githubusercontent.com', 'https://static-cdn.jtvnw.net', 'https://lh3.googleusercontent.com']
-      }
-    }
-  }
 })

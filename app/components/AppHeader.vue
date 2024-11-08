@@ -8,10 +8,6 @@ const { loggedIn, session, user } = useUserSession()
 const title = useAppConfig().app.name;
 const icon = useAppConfig().app.logo;
 
-function testFunction(score: number, object: User, array: Array<string>) {
-  console.log(score, object, array)
-}
-
 const links = computed<HeaderLink[]>(() => {
   const links: HeaderLink[] = []
 
@@ -50,29 +46,6 @@ const items = [
   ],
 ]
 
-interface User {
-  firstName: string,
-  lastName: string
-}
-
-function getFullName(user: User) {
-  return `${user.firstName} ${user.lastName}`
-}
-
-const users = [
-  {
-    firstName: 'John',
-    lastName: 'Doe'
-  },
-  {
-    firstName: 'Jane',
-    lastName: 123
-  }
-]
-
-const userNames = users.map((user) => getFullName(user))
-
-
 </script>
 
 <template>
@@ -106,7 +79,7 @@ const userNames = users.map((user) => getFullName(user))
             variant="ghost"
             square
           >
-            <AppAvatar :src="user.avatar" :text="user.name" />
+            <AppAvatar :src="user.avatar" :text="user.name" size="sm" />
           </UButton>
         </UDropdown>
       </template>
