@@ -9,19 +9,11 @@ export async function findUserById(userId: number) {
     .get()
 }
 
-export async function findUserByGitHubId(githubId: number) {
+export async function findUserByGoogleId(googleId: string) {
   return useDrizzle()
     .select()
     .from(tables.users)
-    .where(eq(tables.users.githubId, githubId))
-    .get()
-}
-
-export async function findUserByTwitchId(twitchId: string) {
-  return useDrizzle()
-    .select()
-    .from(tables.users)
-    .where(eq(tables.users.twitchId, twitchId))
+    .where(eq(tables.users.googleId, googleId))
     .get()
 }
 
