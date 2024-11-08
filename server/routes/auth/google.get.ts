@@ -1,8 +1,17 @@
 export default oauthGoogleEventHandler({
   config: {
-    emailRequired: true,
+    // emailRequired: true,
   },
   async onSuccess(event, { user: oauthUser, tokens }) {
+    // Validate required OAuth user data
+    if (!oauthUser?.sub || !oauthUser?.email) {
+      console.log('OAuth User Data:', JSON.stringify(oauthUser, null, 2))
+      throw createError({
+        statusCode: 400,
+        message: `Missing required user information from Google. Received: ${JSON.stringify(oauthUser, null, 2)}, ${JSON.stringify(tokens, null, 2)}`,
+      })
+    }
+
     const { user: userSession } = await getUserSession(event)
 
     // If the user is already signed in, link the account
@@ -11,26 +20,24 @@ export default oauthGoogleEventHandler({
 
       if (user) {
         await updateUser(userSession.id, {
-          googleId: oauthUser.id,
-          googleToken: tokens.access_token,
+          googleId: oauthUser.sub,
         })
 
         await updateUserSession(event, {
           ...userSession,
-          googleId: oauthUser.id,
+          googleId: oauthUser.sub,
         })
-        return sendRedirect(event, '/profile')
+        return sendRedirect(event, '/dashboard')
       }
     }
 
     // If the user is not signed in, search for an existing user with that Google ID
     // If it exists, sign in as that user and refresh the token
-    let user = await findUserBy(eq(tables.users.googleId, oauthUser.id))
+    let user = await findUserBy(eq(tables.users.googleId, oauthUser.sub))
 
     if (user) {
       await updateUser(user.id, {
-        googleId: oauthUser.id,
-        googleToken: tokens.access_token,
+        googleToken: tokens.access_token ?? null,
       })
 
       await updateUserSession(event, {
@@ -39,9 +46,9 @@ export default oauthGoogleEventHandler({
         email: user.email,
         avatar: user.avatar,
         verifiedAt: user.verifiedAt,
-        googleId: oauthUser.id,
+        googleId: oauthUser.sub,
       })
-      return sendRedirect(event, '/profile')
+      return sendRedirect(event, '/dashboard')
     }
 
     // If the user is not signed in, search for an existing user with that email address without a Google ID
@@ -65,11 +72,11 @@ export default oauthGoogleEventHandler({
 
     // If the user is not signed in and no user exists with that Google ID or email address, create a new user
     const createdUser = await createUser({
-      name: oauthUser.name as string,
-      email: oauthUser.email as string,
-      avatar: oauthUser.picture as string,
-      googleId: oauthUser.id as string,
-      googleToken: tokens.access_token as string,
+      name: oauthUser.name ?? oauthUser.email.split('@')[0],
+      email: oauthUser.email,
+      avatar: oauthUser.picture ?? null,
+      googleId: oauthUser.sub,
+      googleToken: tokens.access_token ?? null,
       verifiedAt: new Date().toUTCString(),
     })
 
@@ -79,9 +86,9 @@ export default oauthGoogleEventHandler({
       email: createdUser.email,
       avatar: createdUser.avatar,
       verifiedAt: createdUser.verifiedAt,
-      googleId: oauthUser.id,
+      googleId: oauthUser.sub,
     })
 
-    return sendRedirect(event, '/profile')
+    return sendRedirect(event, '/dashboard')
   },
 })

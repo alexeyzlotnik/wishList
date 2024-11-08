@@ -90,8 +90,8 @@ async function onSubmitProfileInformation(event: FormSubmitEvent<Schema>) {
           >
             <div class="group relative h-20 w-20">
               <AppAvatar
-                size="3xl"
                 :src="user.avatar"
+                size="3xl"
               />
 
               <label class="absolute inset-0 flex justify-center items-center text-transparent text-sm font-semibold border border-dashed border-transparent group-hover:border-primary group-hover:text-gray-200 rounded-full transition-all ease-in cursor-pointer group-hover:backdrop-blur group-hover:bg-gray-700/50">
