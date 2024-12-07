@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "e9773c29-81a1-4979-847b-e4c5982902bc",
+  "id": "133df985-606d-4a0b-8281-de427370cbb7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "users": {
@@ -42,29 +42,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "github_id": {
-          "name": "github_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "github_token": {
-          "name": "github_token",
+        "google_id": {
+          "name": "google_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "twitch_id": {
-          "name": "twitch_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "twitch_token": {
-          "name": "twitch_token",
+        "google_token": {
+          "name": "google_token",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -100,21 +86,65 @@
           ],
           "isUnique": true
         },
-        "users_github_id_unique": {
-          "name": "users_github_id_unique",
+        "users_google_id_unique": {
+          "name": "users_google_id_unique",
           "columns": [
-            "github_id"
-          ],
-          "isUnique": true
-        },
-        "users_twitch_id_unique": {
-          "name": "users_twitch_id_unique",
-          "columns": [
-            "twitch_id"
+            "google_id"
           ],
           "isUnique": true
         }
       },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "wishlists": {
+      "name": "wishlists",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}

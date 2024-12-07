@@ -64,6 +64,9 @@ const onSubmit = async () => {
 
 onMounted(async () => {
   wishLists = await getWishLists()
+
+  const db = hubDatabase()
+  console.log(db)
 })
 </script>
 
