@@ -1,5 +1,6 @@
 import type { SQL } from 'drizzle-orm'
 import type { UserInsert } from '~~/server/utils/drizzle'
+import { useDrizzle, tables } from '~~/server/utils/drizzle'
 
 export async function findUserById(userId: number) {
   return useDrizzle()

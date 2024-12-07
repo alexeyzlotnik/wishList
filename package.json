@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "db:generate": "drizzle-kit generate",
-    "postinstall": "nuxt prepare"
+    "db:push": "drizzle-kit push",
+    "postinstall": "nuxt prepare",
+    "db:migrate": "drizzle-kit migrate:sqlite",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.4",
@@ -35,9 +38,9 @@
     "@iconify-json/ph": "^1.1.14",
     "@iconify-json/simple-icons": "^1.1.113",
     "@nuxt/eslint": "^0.3.13",
-    "drizzle-kit": "^0.24.0",
+    "drizzle-kit": "^0.24.2",
     "eslint": "^9.9.0",
-    "wrangler": "^3.72.0"
+    "wrangler": "^3.80.5"
   },
   "packageManager": "pnpm@9.7.1"
 }

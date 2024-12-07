@@ -44,8 +44,22 @@ export default defineNuxtConfig({
     blob: true,
     kv: true,
   },
+  nitro: {
+    experimental: {
+      tasks: true
+    }
+  },
   security: {
-    csrf: true,
+    csrf: {
+      enabled: true,
+      methods: ['POST', 'PUT', 'DELETE'],
+      cookieOpts: {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict'
+      },
+      exclude: ['/api/public/**']
+    },
     rateLimiter: {
       driver: {
         name: 'cloudflare-kv-binding',

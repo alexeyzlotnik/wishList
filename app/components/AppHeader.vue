@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { HeaderLink } from '#ui-pro/types'
-
 const { $csrfFetch } = useNuxtApp()
 
 const { loggedIn, session, user } = useUserSession()
