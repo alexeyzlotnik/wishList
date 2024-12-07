@@ -1,5 +1,6 @@
 import type { SQL } from 'drizzle-orm'
 import type { UserInsert } from '~~/server/utils/drizzle'
+import { useDrizzle, tables } from '~~/server/utils/drizzle'
 
 export async function findUserById(userId: number) {
   return useDrizzle()
@@ -9,19 +10,11 @@ export async function findUserById(userId: number) {
     .get()
 }
 
-export async function findUserByGitHubId(githubId: number) {
+export async function findUserByGoogleId(googleId: string) {
   return useDrizzle()
     .select()
     .from(tables.users)
-    .where(eq(tables.users.githubId, githubId))
-    .get()
-}
-
-export async function findUserByTwitchId(twitchId: string) {
-  return useDrizzle()
-    .select()
-    .from(tables.users)
-    .where(eq(tables.users.twitchId, twitchId))
+    .where(eq(tables.users.googleId, googleId))
     .get()
 }
 

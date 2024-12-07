@@ -17,3 +17,17 @@ export const users = sqliteTable('users', {
     .$defaultFn(() => sql`(current_timestamp)`)
     .$onUpdateFn(() => sql`(current_timestamp)`),
 })
+
+export const wishlists = sqliteTable('wishlists', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  userId: integer('user_id').notNull(),
+  name: text('name').notNull(),
+  description: text('description'),
+  createdAt: text('created_at')
+    .notNull()
+    .$defaultFn(() => sql`(current_timestamp)`),
+  updatedAt: text('updated_at')
+    .notNull()
+    .$defaultFn(() => sql`(current_timestamp)`)
+    .$onUpdateFn(() => sql`(current_timestamp)`),
+})

@@ -44,8 +44,22 @@ export default defineNuxtConfig({
     blob: true,
     kv: true,
   },
+  nitro: {
+    experimental: {
+      tasks: true
+    }
+  },
   security: {
-    csrf: true,
+    csrf: {
+      enabled: true,
+      methods: ['POST', 'PUT', 'DELETE'],
+      cookieOpts: {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict'
+      },
+      exclude: ['/api/public/**']
+    },
     rateLimiter: {
       driver: {
         name: 'cloudflare-kv-binding',
@@ -56,7 +70,7 @@ export default defineNuxtConfig({
     },
     headers: {
       contentSecurityPolicy: {
-        'img-src': ['\'self\'', 'data:', 'https://avatars.githubusercontent.com', 'https://static-cdn.jtvnw.net/'],
+        'img-src': ['\'self\'', 'data:', 'https://avatars.githubusercontent.com', 'https://static-cdn.jtvnw.net', 'https://lh3.googleusercontent.com'],
         'script-src': ['\'self\'', 'https', '\'nonce-{{nonce}}\'', 'https://static.cloudflareinsights.com'],
       },
       crossOriginEmbedderPolicy: isProd ? 'credentialless' : false,

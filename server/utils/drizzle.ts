@@ -12,3 +12,5 @@ export function useDrizzle() {
 
 export type User = typeof schema.users.$inferSelect
 export type UserInsert = typeof schema.users.$inferInsert
+export type Wishlist = typeof schema.wishlists.$inferSelect
+export type WishlistInsert = typeof schema.wishlists.$inferInsert
