@@ -1,5 +1,6 @@
 [[d1_databases]]
-binding = "DB" # Should match preview_database_id
+binding = "DB"
 database_name = "wish-list"
-database_id = "d5df7064-98a9-4ceb-8457-e31966d57be8" # wrangler d1 info YOUR_DATABASE_NAME
-preview_database_id = "DB" # Required for Pages local development
+database_id = "d5df7064-98a9-4ceb-8457-e31966d57be8"
+preview_database_id = "DB"
+migrations_dir = "server/database/migrations"
