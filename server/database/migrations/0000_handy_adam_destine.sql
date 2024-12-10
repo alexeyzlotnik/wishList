@@ -1,6 +1,3 @@
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `wishlists`;
-
 CREATE TABLE `users` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text NOT NULL,

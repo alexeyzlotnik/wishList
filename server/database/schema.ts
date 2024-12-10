@@ -23,6 +23,25 @@ export const wishlists = sqliteTable('wishlists', {
   userId: integer('user_id').notNull(),
   name: text('name').notNull(),
   description: text('description'),
+  public: integer('public', { mode: 'boolean' }).notNull().default(false),
+  uuid: text('uuid').notNull(),
+  createdAt: text('created_at')
+    .notNull()
+    .$defaultFn(() => sql`(current_timestamp)`),
+  updatedAt: text('updated_at')
+    .notNull()
+    .$defaultFn(() => sql`(current_timestamp)`)
+    .$onUpdateFn(() => sql`(current_timestamp)`),
+})
+
+export const wishlistItems = sqliteTable('wishlist_items', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  wishlistId: integer('wishlist_id').notNull(),
+  name: text('name').notNull(),
+  description: text('description'),
+  url: text('url'),
+  image: text('image'),
+  price: text('price'),
   createdAt: text('created_at')
     .notNull()
     .$defaultFn(() => sql`(current_timestamp)`),

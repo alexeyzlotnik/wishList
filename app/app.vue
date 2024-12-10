@@ -3,6 +3,13 @@ useHead({
   titleTemplate: title => title ? `${title} – test` : 'Wish List – test',
 })
 
+const { csrf } = useCsrf()
+
+// Initialize CSRF token
+onMounted(() => {
+  csrf.value // This will trigger the token generation
+})
+
 </script>
 
 <template>
