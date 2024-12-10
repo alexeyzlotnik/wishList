@@ -4,30 +4,29 @@ export default defineAppConfig({
     gray: '#12181d',
   },
   app: {
-    logo: '/images/tool-farm.png',
+    logo: '/images/logo.svg',
     name: 'Wish List'
   },
   footer: {
     smallLinks: [
-      // {
-      //   label: 'Privacy Policy',
-      //   to: '/privacy',
-      // },
-      // {
-      //   label: 'Terms of Service',
-      //   to: '/terms',
-      // },
+      {
+        label: 'Privacy Policy',
+        to: '/privacy',
+      },
+      {
+        label: 'Terms of Service',
+        to: '/terms',
+      },
       {
         label: 'Contact',
-        to: 'mailto:alexeyzlotnik@gmail.com?subject=Tool%20Farm',
+        to: 'mailto:alexeyzlotnik@gmail.com?subject=Wish%20List',
       },
     ],
   },
   socials: [
     {
       title: 'Made with ❤️ by Alexey Zlotnik',
-      // icon: 'i-simple-line-icons:link',
-      to: 'https://zlotnik.website',
+      to: 'https://alexeyzlotnik.github.io/',
       target: '_blank',
     },
   ],

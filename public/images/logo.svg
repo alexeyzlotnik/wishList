@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Box base -->
+  <path
+    d="M20 12v8H4v-8"
+    fill="#FF9F43"
+    stroke="#FF8412"
+    stroke-width="2"
+  />
+  <!-- Box top -->
+  <path
+    d="M22 7v5H2V7"
+    fill="#FF8412"
+    stroke="#FF8412"
+    stroke-width="2"
+  />
+  <!-- Ribbon vertical -->
+  <path
+    d="M12 4v16"
+    stroke="#FFF"
+    stroke-width="2"
+  />
+  <!-- Ribbon horizontal -->
+  <path
+    d="M4 9.5h16"
+    stroke="#FFF"
+    stroke-width="2"
+  />
+  <!-- Bow top -->
+  <path
+    d="M12 4c0-1.5 1.269-3 3-3 1.731 0 3 1.5 3 3s-1.269 3-3 3c-1.731 0-3-1.5-3-3"
+    fill="#FF6B6B"
+  />
+  <!-- Bow bottom -->
+  <path
+    d="M12 4c0-1.5-1.269-3-3-3-1.731 0-3 1.5-3 3s1.269 3 3 3c1.731 0 3-1.5 3-3"
+    fill="#FF6B6B"
+  />
+</svg>
