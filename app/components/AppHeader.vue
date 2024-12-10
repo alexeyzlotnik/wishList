@@ -12,8 +12,8 @@ const links = computed<HeaderLink[]>(() => {
 
   if (loggedIn.value) {
     links.push({
-      label: 'Dashboard',
-      to: '/dashboard',
+      label: 'Wishlists',
+      to: '/wishlists',
     })
   }
 

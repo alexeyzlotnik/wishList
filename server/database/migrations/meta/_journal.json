@@ -1,12 +1,33 @@
 {
-  "version": "7",
+  "version": "5",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "6",
-      "when": 1733591393756,
+      "version": "5",
+      "when": 1710000000000,
       "tag": "0000_handy_adam_destine",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710000000000,
+      "tag": "0001_lush_prodigy",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710000000000,
+      "tag": "0002_add_uuid_to_wishlists",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1733787664061,
+      "tag": "0003_add_wishlist_items",
       "breakpoints": true
     }
   ]

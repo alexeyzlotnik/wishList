@@ -1,18 +1,29 @@
 import { consola } from 'consola'
 import { migrate } from 'drizzle-orm/d1/migrator'
 
-export default defineNitroPlugin(async () => {
-  if (!import.meta.dev) return
+export default defineNitroPlugin(async (nitroApp) => {
+  consola.info('Starting database migrations...')
 
-  onHubReady(async () => {
-    await migrate(useDrizzle(), {
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    const db = useDrizzle()
+    consola.info('Database connection established')
+
+    await migrate(db, {
       migrationsFolder: 'server/database/migrations',
     })
-      .then(() => {
-        consola.success('Database migrations done')
-      })
-      .catch((err) => {
-        consola.error('Database migrations failed', err)
-      })
-  })
+    consola.success('Database migrations completed successfully')
+
+    try {
+      const result = await db.query.wishlists.findMany()
+      consola.success('Database verified:', result.length, 'wishlists found')
+    } catch (err) {
+      consola.error('Database verification failed:', err)
+      throw err
+    }
+  } catch (err) {
+    consola.error('Migration error:', err)
+    throw err
+  }
 })

@@ -6,8 +6,8 @@ useSeoMeta({
   description,
 })
 
-const login = () => {
-  navigateTo('/login')
+const openWishlist = () => {
+  navigateTo('/wishlists')
 }
 </script>
 
@@ -21,7 +21,7 @@ const login = () => {
     </ULandingSection>
 
     <div class="flex justify-center">
-      <UButton @click="login" align="center">
+      <UButton @click="openWishlist" align="center">
         Create wish list online
       </UButton>
     </div>

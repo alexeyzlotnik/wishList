@@ -1,3 +1,5 @@
+import { randomUUID } from 'uncrypto'
+
 export default defineEventHandler(async (event) => {
   const { name, description } = await readBody(event)
   const { user } = await requireUserSession(event)
@@ -10,6 +12,7 @@ export default defineEventHandler(async (event) => {
       name,
       description,
       userId: user.id,
+      uuid: randomUUID(),
       createdAt: now,
       updatedAt: now
     })

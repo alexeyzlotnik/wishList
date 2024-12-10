@@ -52,13 +52,13 @@ export default defineNuxtConfig({
   security: {
     csrf: {
       enabled: true,
-      methods: ['POST', 'PUT', 'DELETE'],
       cookieOpts: {
         path: '/',
         httpOnly: true,
         sameSite: 'strict'
       },
-      exclude: ['/api/public/**']
+      exclude: ['/api/public/**'],
+      methodsToProtect: ['POST', 'PUT', 'DELETE', 'PATCH']
     },
     rateLimiter: {
       driver: {

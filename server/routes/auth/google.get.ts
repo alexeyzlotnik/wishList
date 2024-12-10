@@ -27,7 +27,7 @@ export default oauthGoogleEventHandler({
           ...userSession,
           googleId: oauthUser.sub,
         })
-        return sendRedirect(event, '/dashboard')
+        return sendRedirect(event, '/wishlists')
       }
     }
 
@@ -48,7 +48,7 @@ export default oauthGoogleEventHandler({
         verifiedAt: user.verifiedAt,
         googleId: oauthUser.sub,
       })
-      return sendRedirect(event, '/dashboard')
+      return sendRedirect(event, '/wishlists')
     }
 
     // If the user is not signed in, search for an existing user with that email address without a Google ID
@@ -89,6 +89,6 @@ export default oauthGoogleEventHandler({
       googleId: oauthUser.sub,
     })
 
-    return sendRedirect(event, '/dashboard')
+    return sendRedirect(event, '/wishlists')
   },
 })

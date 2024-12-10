@@ -1,46 +1,25 @@
-// import { defineEventHandler } from 'h3'
-// import { useDrizzle, tables } from '~~/server/utils/drizzle'
-// import { requireUserSession } from '~~/server/utils/session'
+import { defineEventHandler, createError } from 'h3'
+import { useDrizzle, tables } from '~~/server/utils/drizzle'
+import { requireVerifiedUserSession } from '~~/server/utils/session'
+import { eq } from 'drizzle-orm'
 
+export default defineEventHandler(async (event) => {
+  const { user } = await requireVerifiedUserSession(event)
 
-// export default defineEventHandler(async (event) => {
-//   try {
-//     // Get the current user's session
-//     const { user } = await requireUserSession(event)
+  try {
+    const wishlists = await useDrizzle()
+      .select()
+      .from(tables.wishlists)
+      .where(eq(tables.wishlists.userId, user.id))
+      .all()
 
-//     // Fetch wishlists for the current user
-//     const wishlists = await useDrizzle()
-//       .select()
-//       .from(tables.wishlists)
-//       .where(eq(tables.wishlists.userId, user.id)) // Assuming 'userId' is the column name
-//       .all()
-
-//     return {
-//       statusCode: 200,
-//       body: wishlists,
-//     }
-//   } catch (error) {
-//     return {
-//       statusCode: 500,
-//       body: { error: 'Failed to fetch wishlists' },
-//     }
-//   }
-// })
-
-// export default defineEventHandler((event) => {
-//    return {
-//     id: 1,
-//     user_id: 1,
-//     name: 'test',
-//     description: 'test',
-//     created_at: '2024-01-01',
-//     updated_at: '2024-01-01',
-//   }
-// })
-
-export default defineEventHandler(async () => {
-  const wishlists = await useDrizzle().select().from(tables.wishlists).all()
-
-  return wishlists
+    return wishlists
+  } catch (error) {
+    console.error(error)
+    throw createError({
+      statusCode: 500,
+      message: 'Failed to fetch wishlists'
+    })
+  }
 })
 

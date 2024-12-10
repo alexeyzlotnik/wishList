@@ -12,13 +12,14 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "postinstall": "nuxt prepare",
-    "db:migrate": "drizzle-kit migrate:sqlite",
+    "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.4",
     "@nuxt/ui-pro": "^1.4.1",
     "@nuxthub/core": "^0.7.3",
+    "@vueuse/core": "^12.0.0",
     "drizzle-orm": "^0.33.0",
     "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
@@ -38,6 +39,7 @@
     "@iconify-json/ph": "^1.1.14",
     "@iconify-json/simple-icons": "^1.1.113",
     "@nuxt/eslint": "^0.3.13",
+    "better-sqlite3": "^11.7.0",
     "drizzle-kit": "^0.24.2",
     "eslint": "^9.9.0",
     "wrangler": "^3.80.5"
