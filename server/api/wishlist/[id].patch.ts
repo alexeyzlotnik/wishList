@@ -41,7 +41,9 @@ export default defineEventHandler(async (event) => {
     await useDrizzle()
       .update(tables.wishlists)
       .set({
-        public: Boolean(body.public),
+        name: body.name || wishlist.name,
+        description: body.description || wishlist.description,
+        public: 'public' in body ? Boolean(body.public) : wishlist.public,
         updatedAt: new Date().toISOString()
       })
       .where(eq(tables.wishlists.id, parseInt(id)))

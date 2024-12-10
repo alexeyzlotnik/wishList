@@ -1,0 +1,1 @@
+ALTER TABLE `wishlist_items` ADD `selected_by` text;

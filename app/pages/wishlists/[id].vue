@@ -20,6 +20,8 @@ const wishlist = ref(null)
 const wishlistItems = ref(null)
 const isPublic = ref(false)
 const showAddItemForm = ref(false)
+const showEditForm = ref(false)
+const isEditing = ref(false)
 
 // fetch on mount
 onMounted(async () => {
@@ -79,33 +81,77 @@ const onItemAdded = () => {
   showAddItemForm.value = false
   refreshWishlist()
 }
+
+async function editWishlist(formData: { name: string, description: string }) {
+  isEditing.value = true
+  try {
+    await $csrfFetch(`/api/wishlist/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(formData),
+      headers: {
+        'csrf-token': csrf,
+        'Content-Type': 'application/json'
+      }
+    })
+    await refreshWishlist()
+    showEditForm.value = false
+    useSuccessToast('Wishlist updated successfully')
+  } catch (error) {
+    console.error(error)
+    useErrorToast('Failed to update wishlist')
+  } finally {
+    isEditing.value = false
+  }
+}
 </script>
 
 <template>
   <UContainer>
     <UPage>
       <template v-if="wishlist">
-        <UPageHeader :title="wishlist.name" :description="wishlist.description"/>
+        <UPageHeader :title="wishlist.name" :description="wishlist.description">
+
+          <template #links>
+            <UButton
+            icon="i-heroicons-pencil"
+            variant="soft"
+            @click="showEditForm = true"
+          >
+            Edit
+          </UButton>
+
+          <UModal v-model="showEditForm">
+            <WishlistForm
+              :initial-data="wishlist"
+              :is-loading="isEditing"
+              @submit="editWishlist"
+              @cancel="showEditForm = false"
+            />
+          </UModal>
+          </template>
+
+        </UPageHeader>
 
         <UPageBody>
 
-          <div class="flex gap-2 items-center justify-between">
+          <div class="flex gap-2 items-center justify-between mb-4">
             <UButton
               color="primary"
               @click="showAddItemForm = true"
-              class="mb-4"
             >
               Add Item
             </UButton>
             <div class="flex gap-2 items-center">
-              <UToggle v-model="isPublic" @change="togglePublic">
+              <!-- <UToggle v-model="isPublic" @change="togglePublic">
                 {{ isPublic ? 'Public' : 'Private' }}
-              </UToggle>
+              </UToggle> -->
+              <!-- show share url in a field -->
+              <UInput v-model="urlForShare" readonly />
               <UButton
                 icon="i-heroicons-share"
                 @click="shareUrl()"
               >
-                Share
+                Copy Share URL
               </UButton>
             </div>
           </div>
@@ -143,6 +189,13 @@ const onItemAdded = () => {
                     variant="soft"
                   >
                     Buy
+                  </UButton>
+                  <UButton
+                    v-if="item.selectedBy"
+                    :disabled="item.selectedBy"
+                    :color="'gray'"
+                  >
+                    {{ 'Selected' }}
                   </UButton>
                 </div>
               </div>

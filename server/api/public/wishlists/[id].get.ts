@@ -16,12 +16,20 @@ export default defineEventHandler(async (event) => {
     const result = await useDrizzle()
       .select({
         wishlists: tables.wishlists,
-        wishlist_items: tables.wishlistItems
+        wishlist_items: tables.wishlistItems,
+        user: {
+          id: tables.users.id,
+          name: tables.users.name
+        }
       })
       .from(tables.wishlists)
       .leftJoin(
         tables.wishlistItems,
         eq(tables.wishlists.id, tables.wishlistItems.wishlistId)
+      )
+      .leftJoin(
+        tables.users,
+        eq(tables.wishlists.userId, tables.users.id)
       )
       .where(eq(tables.wishlists.uuid, uuid))
       .all()
@@ -36,10 +44,18 @@ export default defineEventHandler(async (event) => {
     // Group the results
     const wishlist = result[0].wishlists
     const items = result.map(r => r.wishlist_items).filter(Boolean)
+    const ownerName = result[0].user?.name || 'Anonymous'
+
+    console.log('Debug result:', {
+      wishlist: result[0].wishlists,
+      user: result[0].user,
+      itemsCount: items.length
+    })
 
     return {
       ...wishlist,
-      items
+      items,
+      ownerName
     }
   } catch (error) {
     console.error(error)

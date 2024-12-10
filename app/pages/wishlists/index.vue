@@ -22,6 +22,10 @@ const isDeleteModalOpen = ref(false)
 const wishlistToDelete = ref(null)
 const isDeleting = ref(false)
 
+const showEditForm = ref(false)
+const wishlistToEdit = ref(null)
+const isEditing = ref(false)
+
 const getWishLists = async () => {
   const response = await $csrfFetch('/api/wishlist/wishlists', {
     headers: {
@@ -100,6 +104,35 @@ const deleteWishlist = async () => {
   }
 }
 
+const openEditModal = (wishlist: any) => {
+  wishlistToEdit.value = wishlist
+  showEditForm.value = true
+}
+
+async function editWishlist(formData: { name: string, description: string }) {
+  if (!wishlistToEdit.value) return
+
+  isEditing.value = true
+  try {
+    await $csrfFetch(`/api/wishlist/${wishlistToEdit.value.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(formData),
+      headers: {
+        'csrf-token': csrf,
+        'Content-Type': 'application/json'
+      }
+    })
+    wishLists.value = await getWishLists()
+    showEditForm.value = false
+    useSuccessToast('Wishlist updated successfully')
+  } catch (error) {
+    console.error(error)
+    useErrorToast('Failed to update wishlist')
+  } finally {
+    isEditing.value = false
+  }
+}
+
 onMounted(async () => {
   console.log('Fetching wishlists')
   wishLists.value = await getWishLists()
@@ -129,6 +162,14 @@ onMounted(async () => {
               size="xs"
               class="absolute top-2 right-2"
             @click.prevent="openDeleteModal(wishlist)"
+            />
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-pencil"
+              size="xs"
+              class="absolute top-2 right-10"
+              @click.prevent="openEditModal(wishlist)"
             />
           </UPageCard>
         </div>
@@ -218,6 +259,16 @@ onMounted(async () => {
             </div>
           </template>
         </UCard>
+      </UModal>
+
+      <UModal v-model="showEditForm">
+        <WishlistForm
+          v-if="wishlistToEdit"
+          :initial-data="wishlistToEdit"
+          :is-loading="isEditing"
+          @submit="editWishlist"
+          @cancel="showEditForm = false"
+        />
       </UModal>
     </UPage>
   </UContainer>
