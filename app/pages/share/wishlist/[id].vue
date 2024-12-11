@@ -117,6 +117,27 @@ const unselectItem = async (item) => {
     useErrorToast('Failed to unselect item')
   }
 }
+
+// Add meta tags after wishlist is loaded
+watch(() => wishlist.value, (newWishlist) => {
+  if (newWishlist) {
+    useSeoMeta({
+      title: () => `Check out ${newWishlist.name} wishlist`,
+      description: "This wishlist was shared with you. Please select one item from the list below that you'd like to get for the recipient.",
+      // Disable search engine indexing
+      robots: 'noindex, nofollow',
+      // Open Graph meta tags for social sharing
+      ogTitle: () => `Check out ${newWishlist.name} wishlist`,
+      ogDescription: "This wishlist was shared with you. Please select one item from the list below that you'd like to get for the recipient.",
+      ogImage: null,
+      // Twitter Card meta tags
+      twitterTitle: () => `Check out ${newWishlist.name} wishlist`,
+      twitterDescription: "This wishlist was shared with you. Please select one item from the list below that you'd like to get for the recipient.",
+      twitterCard: 'summary',
+      twitterImage: null,
+    })
+  }
+})
 </script>
 
 <template>
