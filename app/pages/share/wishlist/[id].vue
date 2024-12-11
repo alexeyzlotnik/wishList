@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useLocalStorage } from '@vueuse/core'
 
-const { $csrfFetch } = useNuxtApp()
+const { $csrfFetch, $csrf } = useNuxtApp()
+const { csrf } = useCsrf()
 
 const route = useRoute()
 const uuid = route.params.id as string
@@ -69,8 +70,11 @@ const isCurrentUserSelection = (item) => {
 
 const confirmSelection = async () => {
   try {
-    await $csrfFetch(`/api/public/wishlists/${uuid}/select`, {
+    await $csrfFetch(`/api/public/wishlists/${route.params.id}/select`, {
       method: 'POST',
+      headers: {
+        'csrf-token': $csrf
+      },
       body: {
         itemId: selectedItem.value.id,
         userName: userName.value,
@@ -80,7 +84,7 @@ const confirmSelection = async () => {
 
     userSelections.value = {
       name: userName.value,
-      selections: [selectedItem.value.id] // Allow only one selection
+      selections: [selectedItem.value.id]
     }
 
     showNameModal.value = false
@@ -99,8 +103,11 @@ const unselectItem = async (item) => {
   }
 
   try {
-    await $csrfFetch(`/api/public/wishlists/${uuid}/select`, {
+    await $csrfFetch(`/api/public/wishlists/${route.params.id}/select`, {
       method: 'POST',
+      headers: {
+        'csrf-token': $csrf
+      },
       body: {
         itemId: item.id,
         userName: userSelections.value.name,
