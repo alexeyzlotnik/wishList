@@ -91,4 +91,20 @@ export default oauthGoogleEventHandler({
 
     return sendRedirect(event, '/wishlists')
   },
+  onError(event, error) {
+    console.error('Google OAuth Error:', error)
+
+    // Set an error message in the session
+    updateSession(event,
+      {
+        password: useRuntimeConfig(event).session.password,
+      },
+      {
+        message: error.message || 'Authentication failed. Please try again.',
+      }
+    )
+
+    // Redirect to login page with error
+    return sendRedirect(event, '/login')
+  }
 })
