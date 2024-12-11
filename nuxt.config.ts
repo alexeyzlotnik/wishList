@@ -72,7 +72,9 @@ export default defineNuxtConfig({
     headers: {
       contentSecurityPolicy: {
         'img-src': ['\'self\'', 'data:', 'https://avatars.githubusercontent.com', 'https://static-cdn.jtvnw.net', 'https://lh3.googleusercontent.com'],
-        'script-src': ['\'self\'', 'https', '\'nonce-{{nonce}}\'', 'https://static.cloudflareinsights.com'],
+        'script-src': ['\'self\'', '\'unsafe-inline\'', 'https:', 'https://accounts.google.com', 'https://static.cloudflareinsights.com'],
+        'frame-src': ['\'self\'', 'https://accounts.google.com'],
+        'connect-src': ['\'self\'', 'https://accounts.google.com', 'https://www.googleapis.com']
       },
       crossOriginEmbedderPolicy: isProd ? 'credentialless' : false,
     },
