@@ -224,10 +224,15 @@ watch(() => wishlist.value, (newWishlist) => {
       </template>
     </UPage>
 
-    <UModal v-model="showNameModal">
+    <UModal
+      v-model="showNameModal"
+      :ui="{
+        container: 'items-center'  // This centers the modal vertically
+      }"
+    >
       <UCard>
         <UForm @submit.prevent="confirmSelection">
-            <UFormGroup label="Your Name" required>
+          <UFormGroup label="Your Name" required>
             <UInput v-model="userName" required />
           </UFormGroup>
           <div class="flex justify-end gap-2 mt-4">
