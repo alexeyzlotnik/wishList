@@ -149,6 +149,18 @@ const unselectItem = async (item) => {
                 />
                 <h3 class="font-semibold text-lg">{{ item.name }}</h3>
                 <p class="text-gray-600 text-sm mb-4">{{ item.description }}</p>
+
+                <UButton
+                  v-if="item.url"
+                  color="gray"
+                  variant="soft"
+                  class="mb-4 w-full"
+                  :to="item.url"
+                  target="_blank"
+                >
+                  View Item <UIcon name="i-heroicons-arrow-top-right-on-square" class="ml-1" />
+                </UButton>
+
                 <div class="flex justify-between items-center mt-4">
                   <span class="text-gray-700">{{ item.price }}</span>
                   <template v-if="item.selectedBy">

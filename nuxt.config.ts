@@ -60,12 +60,7 @@ export default defineNuxtConfig({
   security: {
     csrf: {
       enabled: true,
-      cookieOpts: {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict'
-      },
-      exclude: ['/api/public/**'],
+      exclude: ['/api/public/**', '/auth/google/**'],
       methodsToProtect: ['POST', 'PUT', 'DELETE', 'PATCH']
     },
     rateLimiter: {
