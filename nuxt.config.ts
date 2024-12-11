@@ -38,6 +38,13 @@ export default defineNuxtConfig({
       key: '',
       from: '',
     },
+    oauth: {
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
+        redirectUrl: process.env.NUXT_OAUTH_GOOGLE_REDIRECT_URL || 'https://wishlister.online/auth/google'
+      }
+    },
   },
   hub: {
     database: true,
