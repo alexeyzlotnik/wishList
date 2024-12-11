@@ -46,7 +46,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     experimental: {
-      tasks: true
+      tasks: true,
+      appManifest: false
     }
   },
   security: {
