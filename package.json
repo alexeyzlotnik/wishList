@@ -44,5 +44,8 @@
     "eslint": "^9.9.0",
     "wrangler": "^3.80.5"
   },
-  "packageManager": "pnpm@9.7.1"
+  "packageManager": "pnpm@9.7.1",
+  "resolutions": {
+    "nitro-cloudflare-dev": "npm:@atinux/nitro-cloudflare-dev@0.2.1"
+  }
 }

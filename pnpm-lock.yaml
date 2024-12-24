@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  nitro-cloudflare-dev: npm:@atinux/nitro-cloudflare-dev@0.2.1
+
 dependencies:
   '@nuxt/ui':
     specifier: ^2.18.4
@@ -116,6 +119,14 @@ packages:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
     dev: true
+
+  /@atinux/nitro-cloudflare-dev@0.2.1:
+    resolution: {integrity: sha512-U/5IkTAO8mIBh9liiktMLAEeGj4UFQWnsl7UIMc3JFgXCiGWn3ntR/UtIH8ubhx3r+XJkShQn1JGqNzUjWZq8g==}
+    dependencies:
+      consola: 3.2.3
+      mlly: 1.7.2
+      pkg-types: 1.2.1
+    dev: false
 
   /@babel/code-frame@7.25.7:
     resolution: {integrity: sha512-0xZJFNE5XMpENsgfHYTw8FbX4kv53mFLn2i3XPoq69LyhYSCBJtitaHx9QnsVTrsogI4Z3+HtEfZ2/GFPOtf5g==}
@@ -2522,7 +2533,7 @@ packages:
       destr: 2.0.3
       h3: 1.13.0
       mime: 4.0.4
-      nitro-cloudflare-dev: 0.2.0
+      nitro-cloudflare-dev: /@atinux/nitro-cloudflare-dev@0.2.1
       ofetch: 1.4.1
       pathe: 1.1.2
       pkg-types: 1.2.1
@@ -6907,14 +6918,6 @@ packages:
   /negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
-    dev: false
-
-  /nitro-cloudflare-dev@0.2.0:
-    resolution: {integrity: sha512-wcvKa0vFZViQm4VBlnVn0SforhfbYvRtq80+18vPXBvhMiTN7KfOthw71goeXelndlmF65TkvNy6SVUWXwOLqg==}
-    dependencies:
-      consola: 3.2.3
-      mlly: 1.7.2
-      pkg-types: 1.2.1
     dev: false
 
   /nitropack@2.9.7(better-sqlite3@11.7.0)(drizzle-orm@0.33.0):

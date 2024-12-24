@@ -55,14 +55,6 @@ const openNameModal = (item) => {
   showNameModal.value = true
 }
 
-const isItemSelected = (itemId: number) => {
-  return wishlist.value?.items.some(item => item.selectedBy)
-}
-
-const canUnselectItem = (itemId: number) => {
-  return userSelections.value?.selections.includes(itemId)
-}
-
 const isCurrentUserSelection = (item) => {
   // Double check both server state and local storage
   return item.selectedBy && item.selectedBy === userSelections.value.name
@@ -84,7 +76,7 @@ const confirmSelection = async () => {
 
     userSelections.value = {
       name: userName.value,
-      selections: [selectedItem.value.id]
+      selections: [...userSelections.value.selections, selectedItem.value.id]
     }
 
     showNameModal.value = false
@@ -115,7 +107,7 @@ const unselectItem = async (item) => {
       }
     })
 
-    userSelections.value.selections = []
+    userSelections.value.selections = userSelections.value.selections.filter(id => id !== item.id)
 
     await fetchWishlist()
     useSuccessToast('Item unselected successfully')
@@ -145,20 +137,25 @@ watch(() => wishlist.value, (newWishlist) => {
     })
   }
 })
+
+definePageMeta({
+  layout: 'public-wishlist',
+  middleware: 'guest',
+})
 </script>
 
 <template>
   <UContainer>
     <UPage>
       <template v-if="wishlist">
-        <UPageHeader :title="wishlist.name" :description="wishlist.description" />
+        <UPageHeader :title="wishlist.name" :description="wishlist.description"/>
 
         <UPageBody>
+          <!-- TODO: fetch author name -->
           <UAlert
-            :title="`This wishlist was shared with you`"
-            description="Please select one item from the list below that you'd like to get for the recipient."
-            color="primary"
-            class="mb-4 bg-primary-400 text-dark"
+            :title="`This wishlist was shared with you by AUTHOR NAME HERE` "
+            description="Please select one or more items from the list below that you'd like to get for the recipient."
+            class="mb-4 bg-primary-100 text-dark lg:w-1/2"
           />
 
           <div class="space-y-6">
@@ -211,7 +208,6 @@ watch(() => wishlist.value, (newWishlist) => {
                   <UButton
                     v-else
                     color="primary"
-                    :disabled="userSelections?.selections.length > 0"
                     @click="openNameModal(item)"
                   >
                     Select this item
