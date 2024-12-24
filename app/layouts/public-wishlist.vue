@@ -10,12 +10,12 @@ useSeoMeta({
 
 <template>
   <div>
-    <AppHeader />
+    <AppHeaderPublicWishlist />
 
     <UMain>
-      <div class="h-screen flex items-center justify-center">
+      <UPage>
         <slot />
-      </div>
+      </UPage>
     </UMain>
 
     <AppFooter />

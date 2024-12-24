@@ -22,6 +22,19 @@ const isPublic = ref(false)
 const showAddItemForm = ref(false)
 const showEditForm = ref(false)
 const isEditing = ref(false)
+const showNames = ref(false)
+
+const breadcrumbLinks = computed(() => {
+  if (!wishlist.value) return []
+  return [{
+    label: 'Wishlists',
+    icon: 'i-heroicons-home',
+    to: '/wishlists'
+}, {
+    label: wishlist.value?.name,
+    icon: 'i-heroicons-link'
+  }]
+})
 
 // fetch on mount
 onMounted(async () => {
@@ -109,7 +122,13 @@ async function editWishlist(formData: { name: string, description: string }) {
   <UContainer>
     <UPage>
       <template v-if="wishlist">
-        <UPageHeader :title="wishlist.name" :description="wishlist.description">
+
+        <UPageHeader :description="wishlist.description">
+
+          <template #title>
+            <UBreadcrumb :links="breadcrumbLinks" class="mb-4" />
+            {{ wishlist.name }}
+          </template>
 
           <template #links>
             <UButton
@@ -139,7 +158,7 @@ async function editWishlist(formData: { name: string, description: string }) {
               color="primary"
               @click="showAddItemForm = true"
             >
-              Add Item
+              Add New Item
             </UButton>
             <div class="flex gap-2 items-center">
               <!-- <UToggle v-model="isPublic" @change="togglePublic">
@@ -154,6 +173,15 @@ async function editWishlist(formData: { name: string, description: string }) {
                 Copy Share URL
               </UButton>
             </div>
+          </div>
+          <div class="flex gap-2 items-center justify-end mb-4">
+            <label for="showNames">Show who selected the item</label>
+            <UToggle
+              on-icon="i-heroicons-check-20-solid"
+              off-icon="i-heroicons-x-mark-20-solid"
+              v-model="showNames"
+              name="showNames"
+            />
           </div>
 
           <UModal v-model="showAddItemForm">
@@ -176,27 +204,30 @@ async function editWishlist(formData: { name: string, description: string }) {
                 :alt="item.name"
                 class="w-full h-48 object-cover rounded-t-md"
               />
-              <div class="p-4 flex flex-col flex-grow">
+              <div class="flex flex-col flex-grow">
                 <h3 class="text-lg font-semibold">{{ item.name }}</h3>
                 <p class="text-gray-600 text-sm mt-2">{{ item.description }}</p>
-                <div class="mt-4 flex justify-between items-center">
+                <div class="mt-4 flex items-start gap-3 flex-col">
                   <span class="text-gray-700">{{ item.price }}</span>
                   <UButton
                     v-if="item.url"
+                    color="gray"
+                    variant="soft"
+                    class="w-full"
                     :to="item.url"
                     target="_blank"
-                    color="primary"
-                    variant="soft"
                   >
-                    Buy
+                    View Item <UIcon name="i-heroicons-arrow-top-right-on-square" class="ml-1" />
                   </UButton>
-                  <UButton
-                    v-if="item.selectedBy"
-                    :disabled="item.selectedBy"
-                    :color="'gray'"
-                  >
-                    {{ 'Selected' }}
-                  </UButton>
+
+                  <div v-if="item.selectedBy" class="bg-primary-100 text-sm p-2 rounded-md">
+                    <template v-if="showNames && item.selectedBy">
+                      {{ 'Selected by: ' + item.selectedBy }}
+                    </template>
+                    <template v-else>
+                      {{ 'Selected by: ****' }}
+                    </template>
+                  </div>
                 </div>
               </div>
             </UCard>

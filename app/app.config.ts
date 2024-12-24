@@ -5,7 +5,7 @@ export default defineAppConfig({
   },
   app: {
     logo: '/images/logo.svg',
-    name: 'Wish List'
+    name: 'WishLister'
   },
   footer: {
     smallLinks: [
