@@ -163,8 +163,7 @@ definePageMeta({
               <div
                 v-for="item in wishlist.items"
                 :key="item.id"
-                class="border rounded-lg p-4 hover:shadow-lg transition-shadow"
-                :class="{ 'bg-primary-400': isCurrentUserSelection(item) }"
+                class="border rounded-lg p-4 hover:shadow-lg transition-shadow relative"
               >
                 <img
                   v-if="item.image"
@@ -189,6 +188,7 @@ definePageMeta({
                 <div class="flex justify-between items-center mt-4">
                   <span class="text-gray-700">{{ item.price }}</span>
                   <template v-if="item.selectedBy">
+                    <!-- unselect button -->
                     <UButton
                       v-if="isCurrentUserSelection(item)"
                       color="red"
@@ -197,14 +197,12 @@ definePageMeta({
                     >
                       Unselect
                     </UButton>
-                    <UButton
-                      v-else
-                      disabled
-                      color="gray"
-                    >
-                      Already Selected
-                    </UButton>
+                    <!-- selected badge -->
+                    <span class="absolute top-4 right-4 text-xs text-white bg-blue-400 rounded-full px-2 py-1">
+                      Already selected
+                    </span>
                   </template>
+                  <!-- select button -->
                   <UButton
                     v-else
                     color="primary"
