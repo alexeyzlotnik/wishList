@@ -57,28 +57,28 @@ function shareUrl() {
   useSuccessToast('Link copied to clipboard')
 }
 
-async function togglePublic() {
-  try {
-    const newPublicState = !isPublic.value
-    console.log('Toggling public status:', { current: isPublic.value, new: newPublicState })
+// async function togglePublic() {
+//   try {
+//     const newPublicState = !isPublic.value
+//     console.log('Toggling public status:', { current: isPublic.value, new: newPublicState })
 
-    const response = await $csrfFetch(`/api/wishlist/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ public: newPublicState }),
-      headers: {
-        'csrf-token': csrf,
-        'Content-Type': 'application/json'
-      }
-    })
+//     const response = await $csrfFetch(`/api/wishlist/${id}`, {
+//       method: 'PATCH',
+//       body: JSON.stringify({ public: newPublicState }),
+//       headers: {
+//         'csrf-token': csrf,
+//         'Content-Type': 'application/json'
+//       }
+//     })
 
-    console.log('Server response:', response)
-    isPublic.value = response.public
-    useSuccessToast(isPublic.value ? 'Wishlist is now public' : 'Wishlist is now private')
-  } catch (error) {
-    console.error('Toggle error:', error)
-    useErrorToast('Failed to update wishlist visibility')
-  }
-}
+//     console.log('Server response:', response)
+//     isPublic.value = response.public
+//     useSuccessToast(isPublic.value ? 'Wishlist is now public' : 'Wishlist is now private')
+//   } catch (error) {
+//     console.error('Toggle error:', error)
+//     useErrorToast('Failed to update wishlist visibility')
+//   }
+// }
 
 const refreshWishlist = async () => {
   const data = await $csrfFetch(`/api/wishlist/${id}`, {
@@ -115,6 +115,18 @@ async function editWishlist(formData: { name: string, description: string }) {
   } finally {
     isEditing.value = false
   }
+}
+
+async function deleteItem(id: number) {
+  console.log('Deleting item:', id)
+  const response = await $csrfFetch(`/api/wishlist/${id}/items`, {
+    method: 'DELETE',
+    headers: {
+      'csrf-token': csrf
+    }
+  })
+  refreshWishlist()
+  useSuccessToast(response.message)
 }
 </script>
 
@@ -165,7 +177,7 @@ async function editWishlist(formData: { name: string, description: string }) {
                 {{ isPublic ? 'Public' : 'Private' }}
               </UToggle> -->
               <!-- show share url in a field -->
-              <UInput v-model="urlForShare" readonly />
+              <!-- <UInput v-model="urlForShare" readonly /> -->
               <UButton
                 icon="i-heroicons-share"
                 @click="shareUrl()"
@@ -196,13 +208,18 @@ async function editWishlist(formData: { name: string, description: string }) {
             <UCard
               v-for="item in wishlistItems"
               :key="item.id"
-              class="flex flex-col"
+              class="flex flex-col relative"
+              :ui="{
+                body: {
+                  padding: 'sm:p-4 p-4'
+                }
+              }"
             >
               <img
                 v-if="item.image"
                 :src="item.image"
                 :alt="item.name"
-                class="w-full h-48 object-cover rounded-t-md"
+                class="w-full h-48 object-cover rounded-md"
               />
               <div class="flex flex-col flex-grow">
                 <h3 class="text-lg font-semibold">{{ item.name }}</h3>
@@ -220,16 +237,24 @@ async function editWishlist(formData: { name: string, description: string }) {
                     View Item <UIcon name="i-heroicons-arrow-top-right-on-square" class="ml-1" />
                   </UButton>
 
-                  <div v-if="item.selectedBy" class="bg-primary-100 text-sm p-2 rounded-md">
-                    <template v-if="showNames && item.selectedBy">
-                      {{ 'Selected by: ' + item.selectedBy }}
-                    </template>
-                    <template v-else>
-                      {{ 'Selected by: ****' }}
-                    </template>
-                  </div>
+                  <!-- selected badge -->
+                  <span v-if="item.selectedBy" class="absolute top-4 right-4 text-xs text-white bg-blue-400 rounded-full px-2 py-1">
+                      Already selected
+                      <template v-if="showNames">
+                        by: {{ item.selectedBy }}
+                      </template>
+                    </span>
                 </div>
               </div>
+              <!-- delete button -->
+              <UButton
+                icon="i-heroicons-trash"
+                color="red"
+                variant="soft"
+                @click="deleteItem(item.id)"
+              >
+                Delete
+              </UButton>
             </UCard>
           </div>
           <UAlert

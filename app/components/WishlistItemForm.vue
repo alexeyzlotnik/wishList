@@ -51,10 +51,27 @@ const onSubmit = async () => {
   }
 }
 
-const handleImageUpload = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (input.files?.length) {
-    state.value.image = input.files[0]
+async function handleImageUpload(event: FileList) {
+  const file = event[0]
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await $csrfFetch('/api/files/files', {
+      headers: {
+        'csrf-token': csrf.value
+      },
+      method: 'POST',
+      body: formData
+    })
+
+    console.log('Upload response:', response) // Debug log
+
+    // Store the full URL path
+    state.value.image = response.url
+  } catch (err) {
+    console.error('Upload error:', err)
+    useErrorToast('Failed to upload image', err.data?.message)
   }
 }
 
@@ -81,7 +98,7 @@ const emit = defineEmits(['added'])
       </UFormGroup>
 
       <UFormGroup label="Image" name="image">
-        <UInput type="file" accept="image/*" @change="handleImageUpload" />
+        <UInput type="file" accept="image/*" icon="i-heroicons-folder" @change="handleImageUpload" />
       </UFormGroup>
 
       <div class="flex justify-end gap-3">

@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
       url: data.url || '',
       price: data.price || '',
       // Handle image upload if needed
-      image: null, // TODO: Implement image upload
+      image: data.image || null, // TODO: Implement image upload
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     })
