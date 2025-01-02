@@ -93,11 +93,15 @@ export default defineNuxtConfig({
         'frame-src': ['\'self\'', 'https://accounts.google.com'],
         'connect-src': ['\'self\'', 'https://accounts.google.com', 'https://www.googleapis.com']
       },
-      crossOriginEmbedderPolicy: isProd ? 'credentialless' : false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
+      crossOriginOpenerPolicy: false
     },
     corsHandler: {
-      origin: ['https://admin.hub.nuxt.com', 'http://localhost:3000', 'https://wishlister.online'],
-      credentials: true
+      origin: ['https://wishlister.online'],
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowHeaders: ['Content-Type', 'Authorization', 'csrf-token']
     }
   },
   csurf: {

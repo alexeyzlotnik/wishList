@@ -1,8 +1,23 @@
 export default oauthGoogleEventHandler({
   config: {
-    // emailRequired: true,
+    cookies: {
+      sessionToken: {
+        name: 'auth.session', // or any other name that works with your setup
+        options: {
+          httpOnly: true,
+          sameSite: 'lax',
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
+          domain: process.env.NODE_ENV === 'production' ? '.wishlister.online' : undefined
+        }
+      }
+    }
   },
   async onSuccess(event, { user: oauthUser, tokens }) {
+    console.log('Auth Success:', {
+      hasUser: !!oauthUser,
+      hasToken: !!tokens.access_token
+    })
     // Validate required OAuth user data
     if (!oauthUser?.sub || !oauthUser?.email) {
       console.log('OAuth User Data:', JSON.stringify(oauthUser, null, 2))
@@ -91,20 +106,7 @@ export default oauthGoogleEventHandler({
 
     return sendRedirect(event, '/wishlists')
   },
-  onError(event, error) {
-    console.error('Google OAuth Error:', error)
-
-    // Set an error message in the session
-    updateSession(event,
-      {
-        password: useRuntimeConfig(event).session.password,
-      },
-      {
-        message: error.message || 'Authentication failed. Please try again.',
-      }
-    )
-
-    // Redirect to login page with error
-    return sendRedirect(event, '/login')
+  onError(error) {
+    console.error('Auth Error:', error)
   }
 })
