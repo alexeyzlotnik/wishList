@@ -49,3 +49,23 @@ export async function deleteProfilePicture(avatar: string) {
     await hubBlob().delete(avatar)
   }
 }
+
+// export async function mergeAccounts(primaryUserId: number, secondaryUserId: number) {
+//   const db = useDrizzle()
+
+//   // Start transaction
+//   return await db.transaction(async (tx) => {
+//     // Update all wishlists to point to primary user
+//     await tx
+//       .update(tables.wishlists)
+//       .set({ userId: primaryUserId })
+//       .where(eq(tables.wishlists.userId, secondaryUserId))
+//       .run()
+
+//     // Delete secondary user
+//     await tx
+//       .delete(tables.users)
+//       .where(eq(tables.users.id, secondaryUserId))
+//       .run()
+//   })
+// }
