@@ -21,5 +21,6 @@ onMounted(() => {
     </NuxtLayout>
 
     <UNotifications />
+    <UModals />
   </div>
 </template>

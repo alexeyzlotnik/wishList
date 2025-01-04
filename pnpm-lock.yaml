@@ -8,6 +8,9 @@ overrides:
   nitro-cloudflare-dev: npm:@atinux/nitro-cloudflare-dev@0.2.1
 
 dependencies:
+  '@formkit/drag-and-drop':
+    specifier: ^0.3.1
+    version: 0.3.1
   '@nuxt/ui':
     specifier: ^2.18.4
     version: 2.18.7(vite@5.4.9)(vue@3.5.12)
@@ -1862,6 +1865,10 @@ packages:
   /@fastify/busboy@2.1.1:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  /@formkit/drag-and-drop@0.3.1:
+    resolution: {integrity: sha512-a2IQpgOWtQRzZ+2Sd9LGOQ9UPg05KxgEMjZY7RcrXeUT0Ajv1oBJ/aFAKUDNZTzi8JkBeBvL3CkfYHI85jzBWg==}
+    dev: false
 
   /@headlessui/tailwindcss@0.2.1(tailwindcss@3.4.14):
     resolution: {integrity: sha512-2+5+NZ+RzMyrVeCZOxdbvkUSssSxGvcUxphkIfSVLpRiKsj+/63T2TOL9dBYMXVfj/CGr6hMxSRInzXv6YY7sA==}
