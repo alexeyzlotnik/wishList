@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useHead({
-  titleTemplate: title => title ? `${title} – test` : 'Wish List – test',
+  titleTemplate: title => title ? `${title} – WishLister` : 'WishLister',
 })
 
 const { csrf } = useCsrf()
