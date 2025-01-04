@@ -1,5 +1,5 @@
 import { defineEventHandler, createError, getRouterParam } from 'h3'
-import { eq, and } from 'drizzle-orm'
+import { eq, and, asc } from 'drizzle-orm'
 import { useDrizzle, tables } from '~~/server/utils/drizzle'
 
 export default defineEventHandler(async (event) => {
@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
         eq(tables.wishlists.userId, tables.users.id)
       )
       .where(eq(tables.wishlists.uuid, uuid))
+      .orderBy(asc(tables.wishlistItems.order))
       .all()
 
     if (!result.length) {

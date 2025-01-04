@@ -43,6 +43,7 @@ export const wishlistItems = sqliteTable('wishlist_items', {
   image: text('image'),
   price: text('price'),
   selectedBy: text('selected_by'),
+  order: integer('order').default(0),
   createdAt: text('created_at')
     .notNull()
     .$defaultFn(() => sql`(current_timestamp)`),

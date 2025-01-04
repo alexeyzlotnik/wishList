@@ -22,6 +22,7 @@ export default defineEventHandler(async (event) => {
         eq(tables.wishlists.id, tables.wishlistItems.wishlistId)
       )
       .where(eq(tables.wishlists.id, parseInt(id)))
+      .orderBy(tables.wishlistItems.order)
       .all()
 
     if (!result.length) {

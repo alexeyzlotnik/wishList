@@ -16,6 +16,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.3.1",
     "@nuxt/ui": "^2.18.4",
     "@nuxt/ui-pro": "^1.4.1",
     "@nuxthub/core": "^0.7.3",

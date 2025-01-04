@@ -1,4 +1,4 @@
-export const useSuccessToast = (title: string, description?: string) => {
+export const useSuccessToast = (title: string, description?: string, actions?: any) => {
   const toast = useToast()
 
   toast.add({
@@ -6,6 +6,7 @@ export const useSuccessToast = (title: string, description?: string) => {
     description,
     color: 'green',
     icon: 'i-heroicons-check-circle',
+    actions: actions,
   })
 }
 

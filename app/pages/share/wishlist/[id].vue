@@ -140,7 +140,7 @@ watch(() => wishlist.value, (newWishlist) => {
 
 definePageMeta({
   layout: 'public-wishlist',
-  middleware: 'guest',
+  // middleware: 'guest',
 })
 </script>
 

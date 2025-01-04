@@ -3,7 +3,13 @@ definePageMeta({
   middleware: 'verified',
 })
 
+import { useClipboard } from '@vueuse/core'
+import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
+import { useDebounceFn } from '@vueuse/core'
+import { state } from '@formkit/drag-and-drop'
+
 const route = useRoute()
+const router = useRouter()
 const { $csrfFetch } = useNuxtApp()
 const { csrf } = useCsrf()
 
@@ -12,7 +18,6 @@ const urlForShare = computed(() => {
   return `${useRequestURL().origin}/share/wishlist/${wishlist.value.uuid}`
 })
 
-import { useClipboard } from '@vueuse/core'
 const { text, copy, copied, isSupported } = useClipboard({ urlForShare })
 
 const id = route.params.id
@@ -36,6 +41,15 @@ const breadcrumbLinks = computed(() => {
   }]
 })
 
+const copyToastAction = ref([{
+  label: 'Preview Wishlist',
+  click: () => navigateTo(`/share/wishlist/${wishlist.value?.uuid}`, { open: { target: '_blank' } })
+}])
+
+const [wishlistParent, items] = useDragAndDrop(wishlistItems, {
+  group: "wishlistItems"
+});
+
 // fetch on mount
 onMounted(async () => {
   await $csrfFetch(`/api/wishlist/${id}`, {
@@ -43,7 +57,6 @@ onMounted(async () => {
       'csrf-token': csrf
     }
   }).then(data => {
-    console.log('data', data)
     wishlist.value = data.wishlists
     wishlistItems.value = data.wishlist_items
     isPublic.value = wishlist.value?.public ?? false
@@ -54,7 +67,7 @@ onMounted(async () => {
 
 function shareUrl() {
   copy(urlForShare.value)
-  useSuccessToast('Link copied to clipboard')
+  useSuccessToast('Link copied to clipboard', '', copyToastAction)
 }
 
 // async function togglePublic() {
@@ -118,7 +131,6 @@ async function editWishlist(formData: { name: string, description: string }) {
 }
 
 async function deleteItem(id: number) {
-  console.log('Deleting item:', id)
   const response = await $csrfFetch(`/api/wishlist/${id}/items`, {
     method: 'DELETE',
     headers: {
@@ -128,6 +140,34 @@ async function deleteItem(id: number) {
   refreshWishlist()
   useSuccessToast(response.message)
 }
+
+// Remove the watch and replace with state events
+state.on('dragEnded', async () => {
+  try {
+    await $csrfFetch(`/api/wishlist/${id}/reorder`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        items: items.value.map((item, index) => ({
+          id: item.id,
+          order: index
+        }))
+      }),
+      headers: {
+        'csrf-token': csrf,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (error) {
+    console.error('Failed to update item order:', error);
+    useErrorToast('Failed to save new item order');
+    await refreshWishlist();
+  }
+});
+
+// Remove or comment out the watch
+// watch(items, (newItems) => {
+//   saveOrder(newItems);
+// }, { deep: true });
 </script>
 
 <template>
@@ -204,9 +244,11 @@ async function deleteItem(id: number) {
           </UModal>
 
           <!-- Items Grid -->
-          <div v-if="wishlistItems?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div v-if="items.length"
+               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+               ref="wishlistParent">
             <UCard
-              v-for="item in wishlistItems"
+              v-for="item in items"
               :key="item.id"
               class="flex flex-col relative"
               :ui="{
