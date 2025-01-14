@@ -153,7 +153,7 @@ definePageMeta({
         <UPageBody>
           <!-- TODO: fetch author name -->
           <UAlert
-            :title="`This wishlist was shared with you by AUTHOR NAME HERE` "
+            :title="`This wishlist was shared with you by ${wishlist.ownerName}`"
             description="Please select one or more items from the list below that you'd like to get for the recipient."
             class="mb-4 bg-primary-100 text-dark lg:w-1/2"
           />
